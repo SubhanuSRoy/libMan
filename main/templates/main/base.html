@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}My title {% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-zinc-900 text-white m-0 text-xl w-full text-white overflow-auto font-figtree"
+  >
+    <main class="m-auto p-6 max-w-6xl md:p-10 md:px-20">
+      <nav
+        class="pt-6 pb-4 md:pb-12 sticky !backdrop-blur-sm !bg-opacity-80 top-0 bg-zinc-900"
+      >
+        <div
+          class="navbar w-0 h-screen fixed overflow-y-hidden !overflow-x-hidden !z-20 bg-zinc-900 md:hidden duration-200"
+        >
+          <span class="close inline-block md:hidden ml-3 !pt-0 transition">
+            <svg
+              clip-rule="evenodd"
+              fill-rule="evenodd"
+              stroke-linejoin="round"
+              stroke-miterlimit="2"
+              viewBox="0 0 24 24"
+              width="36"
+              height="36"
+              xmlns="http://www.w3.org/2000/svg"
+              class="fill-white fill-blue-400 transition"
+            >
+              <path
+                d="m13.789 7.155c.141-.108.3-.157.456-.157.389 0 .755.306.755.749v8.501c0 .445-.367.75-.755.75-.157 0-.316-.05-.457-.159-1.554-1.203-4.199-3.252-5.498-4.258-.184-.142-.29-.36-.29-.592 0-.23.107-.449.291-.591 1.299-1.002 3.945-3.044 5.498-4.243z"
+              ></path>
+            </svg>
+          </span>
+          <div
+            class="relative w-full grid place-items-center top-1/4 text-white bg-zinc-900 min-w-screen"
+          >
+          
+            <a class="p-3 text-4xl hover:text-blue-400 transition" href="/"
+              >Home</a
+            >
+         
+            <a
+              class="p-3 text-4xl hover:text-blue-400 transition"
+              href="/products"
+              >Products</a
+            >
+            <span class="px-2 hover:text-blue-400 transition ">Hello, </span>
+          </div>
+        </div>
+        <span class="open inline-block ml-5 md:hidden transition"
+          ><svg
+            clip-rule="evenodd"
+            fill-rule="evenodd"
+            stroke-linejoin="round"
+            stroke-miterlimit="2"
+            viewBox="0 0 24 24"
+            width="28"
+            height="28"
+            class="fill-white hover:fill-blue-400 transition"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m16.5 11.995c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25z"
+            ></path>
+          </svg>
+        </span>
+        <span
+          class="absolute pr-4 font-bold text-[22px] left-12 md:left-5 ml-2 pt-0 md:left-14 md:ml-1 md:pt-1"
+        >
+          <a
+            href="/"
+            class="text-transparent bg-clip-text bg-gradient-to-r from-[#4873f5] to-[#2bcc69] animate-rainbow"
+            >LibMan</a
+          >
+        </span>
+        <span
+          class="absolute pl-14 text-xl left-40 pt-1 w-max-4xl hidden md:block text-white "
+        >
+     
+          <a class="px-2 hover:text-blue-400 transition" href="/">Home</a>
+    
+          <a class="px-2 hover:text-blue-400 transition" href="/products">Products</a>
+          <span class="px-2 hover:text-blue-400 transition ">Hello, </span>
+          
+          
+
+          <!-- <a class="px-2 hover:text-blue-400 transition" href="#">Customers</a> -->
+        </span>
+        <a
+          class="absolute pointer right-8 md:right-10 py-2 px-4 bg-white text-gray-900 rounded-md"
+          href="{% url 'home' %}"
+          target="_blank"
+          rel="noopener nofollow"
+          aria-label="github logo"
+        >
+          Logout
+        </a>
+      </nav>
+      <div class="w-full mt-6">{% block content %}{% endblock %}</div>
+    </main>
+  </body>
+  <script>
+    const open = document.querySelector(".open");
+    const close = document.querySelector(".close");
+    open.addEventListener("click", function () {
+      document.querySelector(".navbar").classList.replace("w-0", "w-screen");
+      document
+        .querySelector("body")
+        .classList.replace("overflow-auto", "overflow-y-hidden");
+    });
+    close.addEventListener("click", function () {
+      document.querySelector(".navbar").classList.replace("w-screen", "w-0");
+      document
+        .querySelector("body")
+        .classList.replace("overflow-y-hidden", "overflow-auto");
+    });
+  </script>
+</html>
