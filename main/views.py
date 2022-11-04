@@ -17,8 +17,12 @@ from django.contrib.auth.models import Group
 
 # for search func of books
 from . filters import BookFilter
+
+# decorators to restricyt permissions of user
+from . decorators import admin_only,allowed_users,unauthenticated_user
 # Create your views here.
 
+@unauthenticated_user
 def registerPage (request):
     form = CustomCreateUserForm()
     if request.method == 'POST':
@@ -40,7 +44,7 @@ def registerPage (request):
     context={'form':form}
     return render(request,'main/register.html',context)
 
-
+@unauthenticated_user
 def loginPage (request):
 
     if request.method=='POST':
@@ -62,7 +66,7 @@ def logoutUser(request):
     logout(request)
     return redirect('login')
 
-
+@admin_only
 def home(request):
     books_count=Book.objects.all().count()
     issues_count=Issue.objects.all().count()
@@ -81,6 +85,7 @@ def books(request):
     context={'books':books,'filter':bookfilter}
     return render(request,'main/books.html',context)
 
+@admin_only
 def customer(request,pk):
     # here pk is the id of the customer
     customer = Customer.objects.get(id=pk)
@@ -88,6 +93,7 @@ def customer(request,pk):
     context={'issues':issues, 'cust':customer}
     return render(request,'main/customer.html',context)
 
+@admin_only
 # func to create book
 def createBook(request):
     form = BookForm()
@@ -101,6 +107,7 @@ def createBook(request):
     context={'form':form}
     return render(request,'main/book_form.html',context)
 
+@admin_only
 # func to update details/copies of books
 def updateBook(request,pk):
     # get the specific book by its id
@@ -130,6 +137,7 @@ def updateBook(request,pk):
 #     context = {'book':book,'bookName':book.title}
 #     return render(request,'main/delete.html',context)
 
+@allowed_users(allowed_roles=['customer'])
 def userPage(request):
     # all issues of the specific logged in user
     issues = request.user.customer.issue_set.all()
@@ -138,6 +146,7 @@ def userPage(request):
     context={'issues':issues,'custName':custName}
     return render(request,'main/user_home.html',context)
 
+@allowed_users(allowed_roles=['customer'])
 # func to issue book
 def issueBook(request,pk):
     return_book = Book.objects.get(id=pk)
@@ -153,7 +162,7 @@ def issueBook(request,pk):
         messages.success(request,return_book.title + ' has been issued to '+ return_customer.name)
         return redirect('userPage')
     
-
+@allowed_users(allowed_roles=['customer'])
 # func to return book
 def returnBook(request,pk):
     # here pk is the id of the issue
