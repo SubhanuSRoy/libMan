@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %} 
+{% block title %}Add a Book{% endblock %} 
+{% block content %}
+<form class="flex flex-wrap p-10 text-gray-900 bg-gray-100" method="POST" action="">
+    {% csrf_token %}
+    <!-- {% for form in formSet %}
+      {{form}}
+      <hr/>
+    {% endfor %} -->
+    <!-- {{formset}} -->
+
+    {% for field in form %}
+    <div class="flex flex-wrap w-full md:w-1/2 gap-4 border-2 border-gray-400 shadow-lg p-2 md:p-4">
+        <div>{{field.label}}</div>
+        <div class="" >{{field}}</div>
+    </div>
+    {% endfor %}
+
+
+    <div class="text-rose-600 font-medium">{{form.errors}}</div>
+
+    <div class="flex justify-between w-full my-6">
+    <input type="submit" name="Submit" class="cursor-pointer shadow bg-indigo-600 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded">
+        
+    </input>
+    </div>
+  
+
+</form>
+{% endblock %}

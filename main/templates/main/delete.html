@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %} 
+{% block title %}Delete Book{% endblock %} 
+{% block content %}
+<div class="rounded-lg bg-white px-8 py-4 shadow-2xl max-w-2xl mx-auto">
+    <h2 class="text-lg font-bold text-gray-900">
+      Are you sure you want to delete {{bookName}}?
+    </h2>
+    
+    <p class="mt-2 text-sm text-gray-500">
+      Doing that could have cause some issues elsewhere, are you 100% sure it's
+      OK?
+    </p>
+    
+    <form class="mt-8 flex items-center justify-end text-xs" action="{% url 'delete_book' book.id %}" method="POST">
+      {% csrf_token %}
+      <input
+        type="submit"
+        name="Yes"
+        class="rounded cursor-pointer bg-rose-50 px-4 py-2 font-medium text-rose-600"
+      />
+  
+      <a
+        href="{% url 'books' %}"
+        class="ml-2 rounded bg-gray-50 px-4 py-2 font-medium text-gray-600"
+      >
+        No, go back
+      </a>
+    </form>
+  </div>
+  
+  {% endblock %}
