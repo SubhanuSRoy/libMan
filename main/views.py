@@ -149,17 +149,28 @@ def userPage(request):
 @allowed_users(allowed_roles=['customer'])
 # func to issue book
 def issueBook(request,pk):
-    return_book = Book.objects.get(id=pk)
-    return_customer=request.user.customer
-    if(return_book.copies>0):
+    issue_book = Book.objects.get(id=pk)
+    issue_customer=request.user.customer
+    issues = request.user.customer.issue_set.all()
+    # traverse through all the issues and add the book titles to addBook dict
+    allBooks={} #stores the names of the issued books of the current user
+    for issue in issues:
+        allBooks[issue.book.title]=1
+
+    # now check if requested book's title matches with any of the books in allBooks
+    # if yes that means it has already been issued
+    if issue_book.title in allBooks:
+        messages.success(request,issue_book.title + ' has already been issued to you ')
+        return redirect('userPage')
+    else:
         # reduce copies of the book
-        return_book.copies -= 1
+        issue_book.copies -= 1
         # save the updated value
-        return_book.save()
+        issue_book.save()
         
-        Issue.objects.create(customer=return_customer,book=return_book)
+        Issue.objects.create(customer=issue_customer,book=issue_book)
         # show flash message
-        messages.success(request,return_book.title + ' has been issued to '+ return_customer.name)
+        messages.success(request,issue_book.title + ' has been issued to '+ issue_customer.name)
         return redirect('userPage')
     
 @allowed_users(allowed_roles=['customer'])
