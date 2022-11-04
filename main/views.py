@@ -49,7 +49,7 @@ def loginPage (request):
         # now check if user exists only then proceed
         if user is not None:
             login(request,user )
-            return redirect('home')
+            return redirect('userPage')
         else:
             messages.info(request,'Username or Password incorrect')
             # if incorrect then it will take them to the login page again
@@ -111,3 +111,45 @@ def updateBook(request,pk):
 #     context = {'book':book,'bookName':book.title}
 #     return render(request,'main/delete.html',context)
 
+def userPage(request):
+    # all issues of the specific logged in user
+    issues = request.user.customer.issue_set.all()
+    total_issues = issues.count()
+    custName=request.user.customer.name
+    context={'issues':issues,'custName':custName}
+    return render(request,'main/user_home.html',context)
+
+# func to issue book
+def issueBook(request,pk):
+    return_book = Book.objects.get(id=pk)
+    return_customer=request.user.customer
+    if(return_book.copies>0):
+        # reduce copies of the book
+        return_book.copies -= 1
+        # save the updated value
+        return_book.save()
+        
+        Issue.objects.create(customer=return_customer,book=return_book)
+        # show flash message
+        messages.success(request,return_book.title + ' has been issued to '+ return_customer.name)
+        return redirect('userPage')
+    
+
+# func to return book
+def returnBook(request,pk):
+    # here pk is the id of the issue
+    return_issue = Issue.objects.get(id=pk)
+    # get the book which is linked to that issue
+    return_book = return_issue.book
+
+    return_customer=request.user.customer
+   
+    # now increase copies of the book
+    return_book.copies += 1
+    # save the updated value
+    return_book.save()
+    # delete that issue from the db
+    return_issue.delete()
+    # show flash message
+    messages.warning(request,return_book.title + ' has been returned by '+ return_customer.name)
+    return redirect('userPage')

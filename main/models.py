@@ -36,4 +36,14 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+class Issue(models.Model):
+    
+    # we want each issue to refer to customer so we need a foreign key
+    # we want to make a 1 cust to many issues relation here
+    # if in case a customer is deleted, then we just want to make this field as NULL
+    customer = models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
 
+    # we want each issue to refer to book so we need a foreign key
+    # we want to make a 1 book to many issues relation here
+    book = models.ForeignKey(Book,null=True,on_delete=models.SET_NULL)
+    issue_date=models.DateTimeField(auto_now_add=True, null=True)

@@ -5,3 +5,4 @@ from . models import *
 admin.site.register(Customer)
 admin.site.register(Tag)
 admin.site.register(Book)
+admin.site.register(Issue)

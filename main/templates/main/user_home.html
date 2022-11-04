@@ -1,10 +1,11 @@
 {% extends 'main/base.html' %} 
-{% block title %}Library{% endblock %} 
+{% block title %}User{% endblock %} 
 {% block content %}
 <div>
     {% for message in messages %}
-    <div>{{message}}</div>
+    <div class="text-orange-400 bg-gray-100 rounded-md p-4">{{message}}</div>
     {% endfor %}
+    <div class="font-bold text-xl my-4 text-center">Issued Books for {{custName}}</div>
     <div class="flex flex-col bg-gray-100">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -24,64 +25,39 @@
                       Publication Year
                     </th>
                     <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
-                      Copies
+                      Return
                     </th>
-                    {% if request.user.is_staff %}
-                    <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
-                      Update
-                    </th>
-                    {% else %}
-                    <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
-                      Issue
-                    </th>
-                    {% endif %}
+                    
                    
                     
                   </tr>
                 </thead>
                 <tbody>
-                    {% for book in books %}
-                    {% if book.copies > 0 %}
+                    {% for issue in issues %}
+                    
                   <tr class="border-b">
                     
                     <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
-                      {{book.title}}
+                      {{issue.book.title}}
                     </td>
                     <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
-                      {{book.author}}
+                      {{issue.book.author}}
                     </td>
                     
                     <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
-                      {{book.yearOfPublication}}
+                      {{issue.book.yearOfPublication}}
                     </td>
-                    {% if book.copies < 5 %}
-                    <td class="text-sm text-rose-400 font-bold px-6 py-4 whitespace-nowrap">
-                      {{book.copies}}
-                    </td>
-                    
-                    {% else %}
-                    <td class="text-sm text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
-                      {{book.copies}}
-                    </td>
-                    {% endif %}
 
-                    {% if request.user.is_staff %}
                     <td class="px-2 py-5 border-b border-gray-200 text-sm text-center">
-                      <a class="border-2 text-center cursor-pointer border-sky-500 text-sky-500 bg-transparent hover:bg-sky-500 hover:text-white shadow-sm rounded-md p-2 whitespace-no-wrap" href="{% url 'update_book' book.id %}">
-                        Update
+                      <a class="border-2 text-center cursor-pointer border-rose-500 text-rose-500 bg-transparent hover:bg-rose-500 hover:text-white shadow-sm rounded-md p-2 whitespace-no-wrap" href="{% url 'return_book' issue.id %}">
+                        Return
                       </a>
+                     
                     </td>
-                    {% else %}
-                    <td class="px-2 py-5 border-b border-gray-200 text-sm text-center">
-                      <a class="border-2 text-center cursor-pointer border-green-500 text-green-500 bg-transparent hover:bg-green-500 hover:text-white shadow-sm rounded-md p-2 whitespace-no-wrap" href="{% url 'issue_book' book.id %}">
-                        Issue
-                      </a>
-                    </td>
-                    {% endif %}
                    
                     
                   </tr>
-                  {% endif %}
+                 
                   {% endfor %}
                 </tbody>
               </table>
