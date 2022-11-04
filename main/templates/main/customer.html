@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %} 
+{% block title %}Customer {{cust.name}}{% endblock %} 
+{% block content %}
+<!-- <h1>Customer</h1> -->
+<div class="">
+  <div class="h-1/2 flex flex-col md:flex-row items-start gap-4 w-full">
+    <div
+      class="flex flex-col w-full md:w-1/2 h-full bg-gray-200 text-gray-700 items-start gap-4 p-4 shadow-lg rounded-md"
+    >
+      <div class="font-semibold">Customer: {{cust}}</div>
+      <div class="flex-wrap">Email: {{cust.email}}</div>
+    </div>
+    
+    <div
+      class="flex flex-col h-full w-full md:w-1/2 bg-gray-200 text-gray-700 items-start gap-4 p-4 shadow-lg rounded-md"
+    >
+      <div class="font-semibold">Total Issues</div>
+      <div>{{issues.count}}</div>
+      
+    </div>
+  </div>
+  
+  <div class="font-bold text-xl my-4 text-center">Issued Books</div>
+    <div class="flex flex-col bg-gray-100">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-center">
+                <thead class="border-b bg-gradient-to-r from-[#4873f5] to-[#2bcc69] ">
+                  <tr>
+                    
+                    <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
+                      Title
+                    </th>
+                    <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
+                      Author
+                    </th>
+                    
+                    <th scope="col" class="text-sm font-medium px-6 py-4 text-center">
+                      Time of Issue
+                    </th>
+                    
+                    
+                   
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    
+                  <tr class="border-b">
+                    
+                    <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
+                      {{issue.book.title}}
+                    </td>
+                    <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
+                      {{issue.book.author}}
+                    </td>
+                    
+                    <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap">
+                      {{issue.book.date_created}}
+                    </td>
+
+                    
+                   
+                    
+                  </tr>
+                 
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

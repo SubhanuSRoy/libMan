@@ -47,7 +47,7 @@
             <a
               class="p-3 text-4xl hover:text-blue-400 transition"
               href="/books"
-              >Products</a
+              >Library</a
             >
             <span class="px-2 hover:text-blue-400 transition ">Hello, {{request.user.customer.name}}</span>
           </div>
@@ -88,9 +88,12 @@
           {% endif %}
 
     
-          <a class="px-2 hover:text-blue-400 transition" href="/books">Books</a>
-          <span class="px-2 hover:text-blue-400 transition ">Hello, {{request.user.customer.name}} </span>
-          
+          <a class="px-2 hover:text-blue-400 transition" href="/books">Library</a>
+          {% if request.user.is_staff %}
+          <span class="px-2 ">Hello, Admin </span>
+          {% else %}
+          <span class="px-2  ">Hello, {{request.user.customer.name}} </span>
+          {% endif %}
           
 
           <!-- <a class="px-2 hover:text-blue-400 transition" href="#">Customers</a> -->

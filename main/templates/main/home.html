@@ -1,5 +1,92 @@
 {% extends 'main/base.html' %} 
-{% block title %}Home Page{% endblock %} 
+{% block title %}Home Admin{% endblock %} 
 {% block content %}
+<div>
+    <div class="h-1/2 flex flex-col md:flex-row items-start gap-4 w-full">
+        <div
+          class="flex flex-col w-full md:w-1/3 h-full bg-gray-200 text-gray-700 items-start gap-4 p-4 shadow-lg rounded-md"
+        >
+          <div class="font-semibold">Total Copies Issued</div>
+          <div class="">{{issues_count}}</div>
+          
+        </div>
+        <div
+          class="flex flex-col w-full md:w-1/3 bg-gray-200 text-gray-700 items-start gap-4 p-4 shadow-lg rounded-md"
+        >
+          <div class="font-semibold">Total Customers</div>
+          <div class="">{{customers.count}}</div>
+        </div>
+        <div
+          class="flex flex-col h-full w-full md:w-1/3 bg-gray-200 text-gray-700 items-start gap-4 p-4 shadow-lg rounded-md"
+        >
+          <div class="font-semibold">Total Books</div>
+          <div>{{books_count}}</div>
+          <a
+          href="{% url 'create_book' %}"
+            class="w-full border-2 text-center cursor-pointer border-sky-500 text-sky-500 bg-transparent hover:bg-sky-500 hover:text-white shadow-sm rounded-md p-2"
+          >
+            Add Book
+          </a>
+        </div>
+      </div>
+    <div class="container w-full mx-auto  ">
+        <div class="py-8">
+          <div>
+            <h2 class="text-2xl font-semibold leading-tight">Customers</h2>
+          </div>
+          <div class="w-max-4xl sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto flex flex-col gap-2">
 
+            <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+              <table class="min-w-full leading-normal">
+                <thead>
+                  <tr>
+                    <th
+                    class="px-2 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                    >
+                    Customer Name
+                  </th>
+                  <th
+                  class="px-2 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                  Phone
+                </th>
+                <th
+                  class="px-2 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                >
+                  View
+                </th>
+                    
+              
+                </thead>
+                <tbody>
+                  {% for customer in customers %}
+                  <tr>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                      
+                          <p class="text-gray-900 whitespace-no-wrap">
+                            {{customer.name}}
+                          </p>
+                        
+                    </td>
+                    <td class="px-2 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                      <p class="text-gray-900 whitespace-no-wrap">
+                        {{customer.email}}
+                      </p>
+            
+                    </td>
+                    <td class="px-2 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                      <a class="border-2 text-center cursor-pointer border-green-500 text-green-500 bg-transparent hover:bg-green-500 hover:text-white shadow-sm rounded-md p-2 whitespace-no-wrap" href="{% url 'customer' customer.id %}">
+                        View
+                      </a>
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
 {% endblock %}

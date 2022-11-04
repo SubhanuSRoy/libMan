@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate,login,logout
 # to add the customer group to each new user created
 from django.contrib.auth.models import Group
 
+# for search func of books
+from . filters import BookFilter
 # Create your views here.
 
 def registerPage (request):
@@ -49,7 +51,7 @@ def loginPage (request):
         # now check if user exists only then proceed
         if user is not None:
             login(request,user )
-            return redirect('userPage')
+            return redirect('home')
         else:
             messages.info(request,'Username or Password incorrect')
             # if incorrect then it will take them to the login page again
@@ -62,12 +64,29 @@ def logoutUser(request):
 
 
 def home(request):
-    return render(request,'main/home.html')
+    books_count=Book.objects.all().count()
+    issues_count=Issue.objects.all().count()
+    customers=Customer.objects.all()
+    context={'books_count':books_count,'issues_count':issues_count,'customers':customers}
+    return render(request,'main/home.html',context)
 
 def books(request):
     books = Book.objects.all()
-    context={'books':books}
+
+    # when user changes filters, the query changes
+    bookfilter = BookFilter(request.GET,queryset=books)
+
+    # update the orders shown to be as per the queryset of the orderFilter which user wants
+    books=bookfilter.qs
+    context={'books':books,'filter':bookfilter}
     return render(request,'main/books.html',context)
+
+def customer(request,pk):
+    # here pk is the id of the customer
+    customer = Customer.objects.get(id=pk)
+    issues = customer.issue_set.all()
+    context={'issues':issues, 'cust':customer}
+    return render(request,'main/customer.html',context)
 
 # func to create book
 def createBook(request):
