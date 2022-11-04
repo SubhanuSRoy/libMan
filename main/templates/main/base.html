@@ -47,7 +47,7 @@
               href="/books"
               >Products</a
             >
-            <span class="px-2 hover:text-blue-400 transition ">Hello, </span>
+            <span class="px-2 hover:text-blue-400 transition ">Hello, {{request.user.customer.name}}</span>
           </div>
         </div>
         <span class="open inline-block ml-5 md:hidden transition"
@@ -83,7 +83,7 @@
           <a class="px-2 hover:text-blue-400 transition" href="/">Home</a>
     
           <a class="px-2 hover:text-blue-400 transition" href="/books">Books</a>
-          <span class="px-2 hover:text-blue-400 transition ">Hello, </span>
+          <span class="px-2 hover:text-blue-400 transition ">Hello, {{request.user.customer.name}} </span>
           
           
 
@@ -91,7 +91,7 @@
         </span>
         <a
           class="absolute pointer right-8 md:right-10 py-2 px-4 bg-white text-gray-900 rounded-md"
-          href="{% url 'home' %}"
+          href="{% url 'logout' %}"
           target="_blank"
           rel="noopener nofollow"
           aria-label="github logo"
