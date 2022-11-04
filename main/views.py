@@ -20,6 +20,10 @@ from . filters import BookFilter
 
 # decorators to restricyt permissions of user
 from . decorators import admin_only,allowed_users,unauthenticated_user
+
+
+from django.http import JsonResponse
+from . serializers import CustomerSerializer
 # Create your views here.
 
 @unauthenticated_user
@@ -192,3 +196,8 @@ def returnBook(request,pk):
     # show flash message
     messages.warning(request,return_book.title + ' has been returned by '+ return_customer.name)
     return redirect('userPage')
+
+def customer_list(request):
+    customers = Customer.objects.all()
+    custSerializer=CustomerSerializer(customers,many=True)
+    return JsonResponse({'customers':custSerializer.data},safe=False)

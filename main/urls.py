@@ -15,4 +15,6 @@ urlpatterns = [
     path('create_book',views.createBook,name='create_book'),
     path('update_book/<str:pk>',views.updateBook,name='update_book'),
     # path('delete_book/<str:pk>',views.deleteBook,name='delete_book')
+
+    path('api/customer_list',views.customer_list)
 ]
